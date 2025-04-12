@@ -1,0 +1,19 @@
+  apiVersion: v1
+  kind: ConfigMap
+  metadata:
+    name: prometheus-config
+  data:
+    prometheus.yml: |
+      global:
+        scrape_interval: 3s
+
+      scrape_configs:
+        # 1) Your existing exporter
+        - job_name: 'exporter'
+          static_configs:
+            - targets: ['exporter-service:3008']
+
+        # 2) Node Exporter on every node (port 9100)
+        - job_name: 'node-exporter'
+          static_configs:
+            - targets: ['node-exporter.default.svc.cluster.local:9100']

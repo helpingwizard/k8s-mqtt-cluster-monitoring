@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mqtt-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mqtt-deployment
+  template:
+    metadata:
+      labels:
+        app: mqtt-deployment
+    spec:
+      containers:
+      - name: mqtt-server
+        # image: tanish1207/broker-server:latest
+        image: tanish1207/server:v1
+        ports:
+        - containerPort: 1885
+      - name: exporter
+        # image: tanish1207/exporter:latest
+        image: tanish1207/exporter:latest
+        ports:
+        - containerPort: 3008
