@@ -2,9 +2,6 @@ apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: node-exporter
-  namespace: default
-  labels:
-    app: node-exporter
 spec:
   selector:
     matchLabels:
@@ -16,23 +13,9 @@ spec:
     spec:
       hostNetwork: true
       hostPID: true
-      tolerations:
-        - operator: Exists
       containers:
-        - name: node-exporter
-          image: quay.io/prometheus/node-exporter:v1.6.1
-          args:
-            - --path.rootfs=/host
-            - --collector.filesystem.ignored-mount-points="^/(sys|proc|dev)($|/)"
-          ports:
-            - name: metrics
-              containerPort: 9100
-              hostPort: 9100
-          volumeMounts:
-            - name: host
-              mountPath: /host
-              readOnly: true
-      volumes:
-        - name: host
-          hostPath:
-            path: /
+      - name: node-exporter
+        image: prom/node-exporter:latest
+        ports:
+        - containerPort: 9100
+          hostPort: 9100

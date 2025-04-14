@@ -5,9 +5,10 @@ metadata:
   labels:
     app: node-exporter
 spec:
+  clusterIP: None
   selector:
     app: node-exporter
   ports:
-    - protocol: TCP
+    - name: metrics
       port: 9100
       targetPort: 9100

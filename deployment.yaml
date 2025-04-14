@@ -14,12 +14,19 @@ spec:
     spec:
       containers:
       - name: mqtt-server
-        # image: tanish1207/broker-server:latest
         image: tanish1207/server:v1
         ports:
         - containerPort: 1885
       - name: exporter
-        # image: tanish1207/exporter:latest
-        image: tanish1207/exporter:latest
+        image: tanish1207/exporter:v4
         ports:
         - containerPort: 3008
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: NODE_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
